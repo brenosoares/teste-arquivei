@@ -10,6 +10,8 @@ import './style.sass'
 
 //Components
 import TopBar from '../../components/TopBar';
+import ModalExperimente from '../../components/ModalExperimente';
+import ModalNuvem from '../../components/ModalNuvem';
 
 export default class HomeContainer extends Component {
 
@@ -20,11 +22,14 @@ export default class HomeContainer extends Component {
             currentCompany: null,
             dataNotas: null,
             listaNotas: null,
-            authorized: false
+            authorized: false,
+            modalExperiemente: false,
+            modalNuvem: false
         }
     }
 
     componentDidMount(){
+
         axios.get('http://5b50cee2fe45ed0014cf08e6.mockapi.io/initialState')
             .then((response) => {
                 const data = response.data
@@ -36,7 +41,7 @@ export default class HomeContainer extends Component {
                     })
                 ))
 
-                this.listNotas(this.state.dataNotas)  
+                this.listNotas(this.state.dataNotas)
             })
             .catch((error) => {
                 // handle error
@@ -47,7 +52,7 @@ export default class HomeContainer extends Component {
     listNotas = (data) => {
         const arr= []
         data.map((item, index) => {
-            
+
             let diaDoMes = moment(item.emissionDate, "YYYY-MM-DD").format("DD-MM-YYYY")
 
             let valorNota = this.formatarValor(item.value)
@@ -86,11 +91,20 @@ export default class HomeContainer extends Component {
 
           let i = parseInt(amount = Math.abs(Number(amount) || 0).toFixed(decimalCount)).toString();
           let j = (i.length > 3) ? i.length % 3 : 0;
-      
+
           return 'R$' + (j ? i.substr(0, j) + thousands : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands) + (decimalCount ? decimal + Math.abs(amount - i).toFixed(decimalCount).slice(2) : "");
-       
+
       };
 
+        openModalExperimente = () =>{
+            this.setState({modalExperiemente: true})
+        }
+        closeModalExperimente = () =>{
+            this.setState({modalExperiemente: false})
+        }
+        openModalNuvem = () =>{
+            this.setState({modalNuvem: true})
+        }
     render() {
         return (
             <div>
@@ -117,8 +131,10 @@ export default class HomeContainer extends Component {
                 <div className="caixa-dialogo">
                     <p>Você pode ter as notas de <b>todos os seus fornecedores</b>, que ter acesso a elas?</p>
                     <p><b>Experimente grátis o Arquivei</b> e tenha todas suas notas diretamente da Sefaz</p>
-                    <div className="btn-experimentar">Experimentar o Arquivei</div>
+                    <div className="btn-experimentar" onClick={() => this.openModalExperimente()}>Experimentar o Arquivei</div>
                 </div>
+                <ModalExperimente open={this.state.modalExperiemente} close={() => this.closeModalExperimente()} experimente={() => this.openModalNuvem()}/>
+                <ModalNuvem open={this.state.modalNuvem}/>
             </div>
         )
     }

@@ -1,0 +1,60 @@
+.modal
+    background-color: rgba(0,0,0,0.3)
+    display: none
+    align-items: center
+    height: 100%
+    justify-content: center
+    left: 0
+    position: fixed
+    top: 0
+    width: 100%
+    &.open
+        display: flex
+    .modal-cont
+        background-color: #ffffff
+        border-radius: 5px
+        max-width: 500px
+        padding: 20px 30px
+        position: relative
+        width: 100%
+        img
+            margin-bottom: 30px
+        .nuvem
+            color: #7e878f
+            text-align: center
+            margin-bottom: 20px
+        .load-bar
+            display: block
+            width: 100%
+            height: 6px
+            position: relative
+            .track
+                display: block
+                width: 100%
+                height: 100%
+                background-color: #b2d1e8
+            .anima
+                display: block
+                width: 40%
+                height: 100%
+                background-color: #1d87c5
+                border-radius: 6px
+                left: 0
+                position: absolute
+                top: 0
+                animation: animationFrames linear 8s
+                animation-iteration-count: infinite
+                transform-origin: 50% 50%
+
+
+
+@keyframes animationFrames
+    0%
+        left: 0
+    50%
+        left: 60%
+    100%
+        left: 0
+
+
+
